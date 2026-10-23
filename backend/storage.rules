@@ -1,0 +1,48 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isValidMedia() {
+      // Must be under 10 MB (10 * 1024 * 1024 bytes)
+      return request.resource.size <= 10 * 1024 * 1024
+        && (
+          request.resource.contentType.matches('image/png') ||
+          request.resource.contentType.matches('image/jpeg') ||
+          request.resource.contentType.matches('image/webp') ||
+          request.resource.contentType.matches('image/gif')
+        );
+    }
+
+    // Memes folder: memes/{userId}/{fileName}
+    match /memes/{userId}/{fileName} {
+      // Publicly viewable by anyone on the internet without login
+      allow read: if true;
+
+      // Only the authenticated user can upload to their personal folder
+      allow create: if isOwner(userId) && isValidMedia();
+
+      // Owner or Admin can delete media file
+      allow delete: if isOwner(userId) || (isAuthenticated() && request.auth.token.admin == true);
+
+      // Overwriting existing files is disabled
+      allow update: if false;
+    }
+
+    // User avatars folder: avatars/{userId}/{fileName}
+    match /avatars/{userId}/{fileName} {
+      allow read: if true;
+      allow create, update: if isOwner(userId) 
+        && request.resource.size <= 2 * 1024 * 1024 // 2MB for avatar
+        && request.resource.contentType.matches('image/.*');
+      allow delete: if isOwner(userId);
+    }
+  }
+}
