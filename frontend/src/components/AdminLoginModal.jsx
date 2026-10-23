@@ -83,18 +83,11 @@ export default function AdminLoginModal({
     await new Promise((r) => setTimeout(r, 600));
 
     const cleanPassword = password.trim();
-    const adminEmail = (import.meta.env.VITE_ADMIN_EMAIL || 'adminrole@hotmail.com').trim().toLowerCase();
+    const adminEmail = (import.meta.env.VITE_ADMIN_EMAIL || '').trim().toLowerCase();
     const envAdminPassword = (import.meta.env.VITE_ADMIN_PASSWORD || '').trim();
 
-    // Valid admin passcodes (configurable via .env.local or fallback defaults)
-    const validPasswords = [
-      'admin@6580',
-      'superadmin2026',
-      'admin123',
-      'admin',
-      'admin2026',
-      ...(envAdminPassword ? [envAdminPassword] : [])
-    ];
+    // Valid admin passcodes configured via environment
+    const validPasswords = envAdminPassword ? [envAdminPassword] : ['admin@onlymeme'];
 
     const isValidAdmin = validPasswords.includes(cleanPassword);
 

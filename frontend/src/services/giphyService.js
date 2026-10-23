@@ -3,7 +3,7 @@
  * GIPHY REST API integration for searching and discovering trending GIFs.
  */
 
-const DEFAULT_GIPHY_KEY = import.meta.env.VITE_GIPHY_API_KEY || 'sXpGFDGZs0Dv1mmNFvYaGUvYwKX0P4W8';
+const DEFAULT_GIPHY_KEY = import.meta.env.VITE_GIPHY_API_KEY || '';
 const GIPHY_BASE_URL = 'https://api.giphy.com/v1/gifs';
 
 // Fallback curated meme GIFs for offline/rate-limited environments

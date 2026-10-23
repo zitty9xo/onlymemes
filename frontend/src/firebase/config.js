@@ -3,15 +3,15 @@ import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
-// Firebase configuration from environment variables or live project defaults
+// Firebase configuration strictly from environment variables
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || 'AIzaSyDYpoINJB0loGHaMUBjptnPPGQ77KaaHoA',
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || 'onlymemes-14119.firebaseapp.com',
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || 'onlymemes-14119',
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || 'onlymemes-14119.firebasestorage.app',
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || '374678158343',
-  appId: import.meta.env.VITE_FIREBASE_APP_ID || '1:374678158343:web:bb89c6275d90a005247ea2',
-  measurementId: 'G-HXW1SB247H'
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || '',
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || '',
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || '',
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || '',
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || '',
+  appId: import.meta.env.VITE_FIREBASE_APP_ID || '',
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID || ''
 };
 
 // Check if valid Firebase credentials are configured

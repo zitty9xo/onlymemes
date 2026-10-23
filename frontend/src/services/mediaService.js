@@ -10,10 +10,10 @@ export const ALLOWED_MIME_TYPES = new Set([
   'image/gif'
 ]);
 
-// Azure Blob Storage Configuration from environment or defaults
-const AZURE_STORAGE_ACCOUNT = import.meta.env.VITE_AZURE_STORAGE_ACCOUNT || 'onlymemes';
-const AZURE_STORAGE_CONTAINER = import.meta.env.VITE_AZURE_STORAGE_CONTAINER || 'onlymemes';
-const AZURE_SAS_TOKEN = import.meta.env.VITE_AZURE_STORAGE_SAS_TOKEN || 'sv=2026-02-06&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2027-10-23T17:31:55Z&st=2026-10-23T09:16:55Z&spr=https&sig=00Vx%2Bxhj0F3cLeQgtNoXBrbUI65I5fywBxD7Tv8%2BQMQ%3D';
+// Azure Blob Storage Configuration from environment
+const AZURE_STORAGE_ACCOUNT = import.meta.env.VITE_AZURE_STORAGE_ACCOUNT || '';
+const AZURE_STORAGE_CONTAINER = import.meta.env.VITE_AZURE_STORAGE_CONTAINER || '';
+const AZURE_SAS_TOKEN = import.meta.env.VITE_AZURE_STORAGE_SAS_TOKEN || '';
 const STORAGE_PROVIDER = import.meta.env.VITE_STORAGE_PROVIDER || 'azure';
 
 export const isAzureConfigured = Boolean(AZURE_STORAGE_ACCOUNT && AZURE_SAS_TOKEN);
