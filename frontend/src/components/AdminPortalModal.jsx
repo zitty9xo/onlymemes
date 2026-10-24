@@ -69,18 +69,18 @@ export default function AdminPortalModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-surface-container-lowest/95 backdrop-blur-xl animate-fadeIn overflow-y-auto">
       
       {/* Admin Window Container */}
-      <div className="relative w-full max-w-6xl max-h-[92vh] bg-surface-container border-2 border-error/50 rounded-2xl shadow-hard-lg flex flex-col overflow-hidden my-auto">
+      <div className="relative w-full max-w-6xl max-h-[92vh] bg-surface-container border-2 border-primary/50 rounded-2xl shadow-hard-lg flex flex-col overflow-hidden my-auto">
         
         {/* Top Header Bar */}
         <div className="p-4 border-b border-outline-variant/60 bg-surface-container-low flex items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-error/20 border-2 border-error flex items-center justify-center shadow-hard shrink-0 text-error">
+            <div className="w-10 h-10 rounded-xl bg-primary/20 border-2 border-primary flex items-center justify-center shadow-hard shrink-0 text-primary">
               <ShieldAlert className="w-5 h-5" />
             </div>
             <div>
               <div className="flex items-center gap-2">
                 <h2 className="font-modern-20 text-2xl font-normal text-on-surface tracking-wide">
-                  Super-Admin <span className="text-error font-bold">Moderation Portal</span>
+                  Super-Admin <span className="text-primary font-bold">Moderation Portal</span>
                 </h2>
                 <span className="font-mono text-[10px] px-2 py-0.5 rounded bg-error/20 text-error border border-error/40 font-bold uppercase flex items-center gap-1">
                   <Zap className="w-3 h-3" /> 1-Click Nuke Authority

@@ -31,7 +31,7 @@ export default function Header({ user, onOpenAuth, onOpenStudio, onOpenUpload, o
           </button>
           <div className="cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
             <div className="flex items-center gap-1.5">
-              <span className="font-modern-20 text-2xl font-normal text-on-surface tracking-wide">ONLY<span className="text-primary font-bold">MEMES</span></span>
+              <span className="font-modern-20 text-2xl font-normal text-on-surface tracking-wide">only<span className="text-primary font-bold">memes</span></span>
             </div>
             <p className="font-mono text-[11px] text-outline hidden sm:block">Kinetic Meme & Culture Engine</p>
           </div>
@@ -78,15 +78,15 @@ export default function Header({ user, onOpenAuth, onOpenStudio, onOpenUpload, o
             <span>Upload Meme</span>
           </button>
 
-          {/* NotAdmin Shortcut (If Admin) */}
+          {/* OnlyAdmins Shortcut (If Admin) */}
           {user?.role === 'admin' && (
             <button
               onClick={onOpenAdmin}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-error/15 border border-error/50 text-error hover:bg-error/25 font-grotesk text-xs font-bold transition-all shadow-hard btn-neo"
-              title="notadmin"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-primary/15 border border-primary/50 text-on-surface hover:bg-primary/25 font-grotesk text-xs font-bold transition-all shadow-hard btn-neo"
+              title="onlyadmins"
             >
-              <ShieldCheck className="w-3.5 h-3.5" />
-              <span>notadmin</span>
+              <ShieldCheck className="w-3.5 h-3.5 text-primary" />
+              <span>only<span className="text-primary font-bold">admins</span></span>
             </button>
           )}
 
@@ -131,10 +131,10 @@ export default function Header({ user, onOpenAuth, onOpenStudio, onOpenUpload, o
                     {user.role === 'admin' && (
                       <button
                         onClick={() => { onOpenAdmin(); setUserMenuOpen(false); }}
-                        className="flex items-center gap-2 px-3 py-2 text-left font-mono text-xs text-error hover:bg-error/15 transition-colors font-bold"
+                        className="flex items-center gap-2 px-3 py-2 text-left font-mono text-xs text-on-surface hover:bg-primary/15 transition-colors font-bold"
                       >
-                        <ShieldCheck className="w-3.5 h-3.5 text-error" />
-                        <span>notadmin</span>
+                        <ShieldCheck className="w-3.5 h-3.5 text-primary" />
+                        <span>only<span className="text-primary font-bold">admins</span></span>
                       </button>
                     )}
 

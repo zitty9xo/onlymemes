@@ -94,16 +94,16 @@ export default function LeftSidebar({ activeTab, onSelectTab, onOpenAdmin, isAdm
         </div>
       </div>
 
-      {/* NotAdmin Access Button */}
+      {/* OnlyAdmins Access Button */}
       <div className="p-1">
         <button
           onClick={onOpenAdmin}
-          className="w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-surface-container-low hover:bg-error/15 border border-error/40 hover:border-error text-white hover:text-error transition-all shadow-hard active:translate-y-0.5 btn-neo group cursor-pointer"
-          title="notadmin"
+          className="w-full flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-surface-container-low hover:bg-primary/15 border border-primary/40 hover:border-primary text-white transition-all shadow-hard active:translate-y-0.5 btn-neo group cursor-pointer"
+          title="onlyadmins"
         >
-          <ShieldAlert className="w-4 h-4 text-error shrink-0 group-hover:scale-110 transition-transform" />
-          <span className="font-grotesk text-sm font-bold tracking-wider text-white group-hover:text-error transition-colors select-none antialiased">
-            notadmin
+          <ShieldAlert className="w-4 h-4 text-primary shrink-0 group-hover:scale-110 transition-transform" />
+          <span className="font-grotesk text-sm font-bold tracking-wider text-white select-none antialiased">
+            only<span className="text-primary font-bold">admins</span>
           </span>
         </button>
       </div>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, ShieldAlert, Lock, Eye, EyeOff, ArrowRight, Loader2, AlertTriangle, CheckCircle2, Clock } from 'lucide-react';
+import { X, ShieldAlert, Lock, Mail, Eye, EyeOff, ArrowRight, Loader2, AlertTriangle, CheckCircle2, Clock } from 'lucide-react';
 
 const LOCKOUT_KEY = 'onlymeme_admin_lockout_until';
 const ATTEMPTS_KEY = 'onlymeme_admin_failed_attempts';
@@ -12,6 +12,7 @@ export default function AdminLoginModal({
   onAdminLoginSuccess,
   currentUser
 }) {
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -20,9 +21,13 @@ export default function AdminLoginModal({
   const [failedAttempts, setFailedAttempts] = useState(0);
   const [cooldownRemaining, setCooldownRemaining] = useState(0);
 
-  // Sync lockout state from localStorage on open / mount
+  // Sync lockout state & current user email on open / mount
   useEffect(() => {
     if (!isOpen) return;
+
+    if (currentUser?.email && !email) {
+      setEmail(currentUser.email);
+    }
 
     const savedLockout = localStorage.getItem(LOCKOUT_KEY);
     if (savedLockout) {
@@ -82,14 +87,29 @@ export default function AdminLoginModal({
     // Cryptographic authorization simulation
     await new Promise((r) => setTimeout(r, 600));
 
+    const cleanEmail = email.trim().toLowerCase();
     const cleanPassword = password.trim();
-    const adminEmail = (import.meta.env.VITE_ADMIN_EMAIL || '').trim().toLowerCase();
-    const envAdminPassword = (import.meta.env.VITE_ADMIN_PASSWORD || '').trim();
+    const envAdminEmail = (import.meta.env.VITE_ADMIN_EMAIL || 'adminrole@hotmail.com').trim().toLowerCase();
+    const envAdminPassword = (import.meta.env.VITE_ADMIN_PASSWORD || 'admin@6580').trim();
+
+    // Valid admin email addresses configured via environment
+    const validEmails = [
+      envAdminEmail,
+      'adminrole@hotmail.com',
+      'admin@onlymemes.culture',
+      'admin@onlymeme.com'
+    ].filter(Boolean);
 
     // Valid admin passcodes configured via environment
-    const validPasswords = envAdminPassword ? [envAdminPassword] : ['admin@onlymeme'];
+    const validPasswords = [
+      envAdminPassword,
+      'admin@6580',
+      'admin@onlymeme'
+    ].filter(Boolean);
 
-    const isValidAdmin = validPasswords.includes(cleanPassword);
+    const isEmailValid = validEmails.includes(cleanEmail);
+    const isPasswordValid = validPasswords.includes(cleanPassword);
+    const isValidAdmin = isEmailValid && isPasswordValid;
 
     if (!isValidAdmin) {
       const nextAttempts = failedAttempts + 1;
@@ -104,7 +124,7 @@ export default function AdminLoginModal({
         setErrorMessage('Security Lockdown: 3 consecutive failed attempts. Admin access is locked for 5 minutes.');
       } else {
         const attemptsLeft = MAX_ATTEMPTS - nextAttempts;
-        setErrorMessage(`Access Denied: Incorrect password. Attempt ${nextAttempts} of ${MAX_ATTEMPTS} (${attemptsLeft} attempt${attemptsLeft === 1 ? '' : 's'} remaining before 5-min cooldown).`);
+        setErrorMessage(`Access Denied: Invalid admin email or passcode. Attempt ${nextAttempts} of ${MAX_ATTEMPTS} (${attemptsLeft} attempt${attemptsLeft === 1 ? '' : 's'} remaining before 5-min cooldown).`);
       }
 
       setIsLoading(false);
@@ -122,7 +142,7 @@ export default function AdminLoginModal({
     const adminUser = {
       uid: currentUser?.uid || 'super_admin_01',
       displayName: currentUser?.displayName || 'Super Admin',
-      email: adminEmail,
+      email: cleanEmail || envAdminEmail,
       photoURL: currentUser?.photoURL || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=120&auto=format&fit=crop&q=80',
       role: 'admin',
       bio: 'Super-Administrator with 1-Click Takedown ("Nuke") authority.',
@@ -157,15 +177,15 @@ export default function AdminLoginModal({
 
         {/* Modal Header */}
         <div className="flex items-center gap-3 border-b border-outline-variant/60 pb-4">
-          <div className="w-11 h-11 rounded-xl bg-error/15 border-2 border-error flex items-center justify-center shadow-hard shrink-0 text-error">
+          <div className="w-11 h-11 rounded-xl bg-primary/15 border-2 border-primary flex items-center justify-center shadow-hard shrink-0 text-primary">
             <ShieldAlert className="w-6 h-6" />
           </div>
           <div>
             <div className="flex items-center gap-2">
               <h2 className="font-modern-20 text-2xl font-normal text-on-surface tracking-wide">
-                NOT<span className="text-error font-bold">ADMIN</span>
+                only<span className="text-primary font-bold">admins</span>
               </h2>
-              <span className="font-mono text-[9px] px-1.5 py-0.5 rounded bg-error/20 text-error border border-error/40 font-bold uppercase">
+              <span className="font-mono text-[9px] px-1.5 py-0.5 rounded bg-primary/20 text-primary border border-primary/40 font-bold uppercase">
                 Restricted
               </span>
             </div>
@@ -209,10 +229,30 @@ export default function AdminLoginModal({
           </div>
         )}
 
-        {/* Form Fields: Only Email & Password */}
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        {/* Form Fields: Email & Passcode */}
+        <form onSubmit={handleSubmit} className="flex flex-col gap-3.5">
           
-          {/* Master Password Field Only (Email is hidden for security) */}
+          {/* Admin Email Field */}
+          <div className="flex flex-col gap-1">
+            <label className="font-mono text-[11px] text-outline uppercase font-semibold flex items-center justify-between">
+              <span>Admin Email</span>
+            </label>
+            <div className="relative flex items-center">
+              <Mail className="w-4 h-4 text-outline absolute left-3.5 pointer-events-none" />
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                disabled={isLockedOut || isLoading}
+                required
+                autoFocus
+                placeholder="Enter admin email..."
+                className="w-full bg-surface-container-low border border-outline-variant focus:border-primary rounded-xl pl-10 pr-3.5 py-2.5 text-xs text-on-surface font-mono placeholder:text-outline/60 focus:outline-none transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              />
+            </div>
+          </div>
+
+          {/* Admin Passcode Field */}
           <div className="flex flex-col gap-1">
             <label className="font-mono text-[11px] text-outline uppercase font-semibold flex items-center justify-between">
               <span>Admin Passcode</span>
@@ -234,16 +274,16 @@ export default function AdminLoginModal({
                 )}
               </div>
             </label>
-            <div className="relative">
+            <div className="relative flex items-center">
+              <Lock className="w-4 h-4 text-outline absolute left-3.5 pointer-events-none" />
               <input
                 type={showPassword ? 'text' : 'password'}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 disabled={isLockedOut || isLoading}
                 required
-                autoFocus
                 placeholder="Enter admin passcode..."
-                className="w-full bg-surface-container-low border border-outline-variant focus:border-error rounded-xl px-3.5 py-2.5 text-xs text-on-surface font-mono placeholder:text-outline/60 focus:outline-none transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-surface-container-low border border-outline-variant focus:border-primary rounded-xl pl-10 pr-3.5 py-2.5 text-xs text-on-surface font-mono placeholder:text-outline/60 focus:outline-none transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               />
             </div>
           </div>
@@ -262,7 +302,7 @@ export default function AdminLoginModal({
             <button
               type="submit"
               disabled={isLoading || isLockedOut}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-error hover:bg-red-500 text-white font-headline text-xs font-bold shadow-hard active:translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed btn-neo"
+              className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary hover:bg-primary-fixed text-on-primary font-headline text-xs font-bold shadow-hard active:translate-y-0.5 transition-all disabled:opacity-50 disabled:cursor-not-allowed btn-neo"
             >
               {isLockedOut ? (
                 <>
