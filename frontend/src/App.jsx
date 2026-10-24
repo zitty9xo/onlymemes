@@ -15,7 +15,6 @@ import MemeStudio from './components/MemeStudio';
 import AdminLoginModal from './components/AdminLoginModal';
 import AdminPortalModal from './components/AdminPortalModal';
 import ReportModal from './components/ReportModal';
-import SmilePopupModal from './components/SmilePopupModal';
 import { evaluateMemeContent } from './services/aiModerator';
 import { useAuth } from './hooks/useAuth';
 import { db, isFirebaseConfigured } from './firebase/config';
@@ -43,7 +42,6 @@ export default function App() {
   const [isStudioOpen, setIsStudioOpen] = useState(false);
   const [activeStudioMedia, setActiveStudioMedia] = useState(null);
   const [activeCommentPost, setActiveCommentPost] = useState(null);
-  const [isSmileModalOpen, setIsSmileModalOpen] = useState(false);
 
   // Admin Access & Moderation States
   const [isAdminLoginOpen, setIsAdminLoginOpen] = useState(false);
@@ -399,7 +397,6 @@ export default function App() {
           setAdminUserOverride(null);
           logOut();
         }}
-        onSmileClick={() => setIsSmileModalOpen(true)}
       />
 
       {/* Main 12-Column Responsive Layout */}
@@ -450,7 +447,6 @@ export default function App() {
             posts={posts}
             onOpenStudio={() => handleOpenStudio()}
             onOpenUpload={handleOpenUpload}
-            onSmileClick={() => setIsSmileModalOpen(true)}
           />
 
         </div>
@@ -544,12 +540,6 @@ export default function App() {
         post={activeReportPost}
         onSubmitReport={handleSubmitReport}
         currentUser={activeUser}
-      />
-
-      {/* Easter Egg Smile GIF Pop-up Modal */}
-      <SmilePopupModal
-        isOpen={isSmileModalOpen}
-        onClose={() => setIsSmileModalOpen(false)}
       />
 
     </div>
