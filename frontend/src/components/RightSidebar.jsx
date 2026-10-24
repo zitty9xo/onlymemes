@@ -61,7 +61,6 @@ export default function RightSidebar({ user, posts = [], onOpenStudio, onOpenUpl
                 }
               }}
               className="w-12 h-12 rounded-xl bg-surface-container-lowest border-2 border-primary overflow-hidden flex items-center justify-center shadow-hard hover:scale-110 active:scale-95 transition-transform cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/60"
-              title="Click for surprise GIF drop!"
               aria-label="Surprise Smile GIF"
             >
               <span className="material-symbols-outlined text-primary text-3xl font-bold pointer-events-none">sentiment_very_satisfied</span>
