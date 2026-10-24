@@ -115,13 +115,13 @@ This document maintains project context, architectural decisions (ADRs), environ
   4. **Tactile Controls**: Includes a direct link to the Tenor search page, a GIF shuffle button, and multiple dismiss options (X icon, "Done" CTA, backdrop click, Escape key).
 - **Consequence:** Gives visitors an engaging interactive Easter egg while preserving the focused, neo-brutalist social dashboard aesthetic.
 
-### ADR-015: Removal of Surprise GIF Drop Click Triggers & Unified Brand Logo
-- **Context:** User requested: *"remove the click for surprise"* after previously stripping the tooltip.
+### ADR-015: Tooltip Removal with Preserved Smile Popup Easter Egg
+- **Context:** User requested removing the *"Click for surprise GIF drop!"* hover tooltip while keeping the smile popup modal interactive on click.
 - **Decision:**
-  1. **Header Logo Unification (`Header.jsx`)**: Merged the smile emblem and text block into a single, cohesive brand link that smoothly scrolls to the top of the feed (`window.scrollTo({ top: 0, behavior: 'smooth' })`). Removed isolated button element, `onSmileClick`, and surprise aria labels.
-  2. **Community Avatar Streamlining (`RightSidebar.jsx`)**: Converted the `r/OnlyMemes` community avatar from an interactive button into a clean static avatar container.
-  3. **App State Cleanup (`App.jsx`)**: Removed `isSmileModalOpen` state, `SmilePopupModal` component rendering, and related prop dispatches.
-- **Consequence:** Eliminates unexpected Easter egg popups, maintains consistent navigation behavior, and ensures no lingering hover tooltips.
+  1. **Tooltip Elimination**: Removed all `title="Click for surprise GIF drop!"` attributes from both `Header.jsx` and `RightSidebar.jsx` to prevent the browser hover tooltip.
+  2. **Retained Interaction**: Kept `onSmileClick` click and keyboard triggers intact on the header smile emblem and community avatar.
+  3. **Modal Integration (`SmilePopupModal.jsx`, `App.jsx`)**: Preserved the centered square popup modal, shuffle capabilities, and Tenor GIF rotations.
+- **Consequence:** Eliminates unwanted browser hover tooltip popups while preserving the interactive smile popup easter egg.
 
 ---
 

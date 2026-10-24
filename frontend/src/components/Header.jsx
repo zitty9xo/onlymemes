@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Search, Upload, Film, ShieldCheck, User, LogOut } from 'lucide-react';
 
-export default function Header({ user, onOpenAuth, onOpenStudio, onOpenUpload, onOpenGiphy, onOpenAdmin, onOpenProfile, onSignOut }) {
+export default function Header({ user, onOpenAuth, onOpenStudio, onOpenUpload, onOpenGiphy, onOpenAdmin, onOpenProfile, onSignOut, onSmileClick }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [userMenuOpen, setUserMenuOpen] = useState(false);
 
@@ -10,23 +10,25 @@ export default function Header({ user, onOpenAuth, onOpenStudio, onOpenUpload, o
       <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
         
         {/* Brand Logo */}
-        <div
-          className="flex items-center gap-3 select-none cursor-pointer"
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          role="button"
-          tabIndex={0}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              e.preventDefault();
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-          }}
-          aria-label="onlymemes home"
-        >
-          <div className="w-10 h-10 rounded-xl bg-surface-container border-2 border-primary overflow-hidden flex items-center justify-center shadow-hard transition-transform hover:scale-105 active:scale-95">
+        <div className="flex items-center gap-3 select-none">
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              onSmileClick?.();
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                onSmileClick?.();
+              }
+            }}
+            className="w-10 h-10 rounded-xl bg-surface-container border-2 border-primary overflow-hidden flex items-center justify-center shadow-hard hover:scale-110 active:scale-95 transition-transform cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/60"
+            aria-label="Smile"
+          >
             <span className="material-symbols-outlined text-primary text-2xl font-bold pointer-events-none">sentiment_very_satisfied</span>
-          </div>
-          <div>
+          </button>
+          <div className="cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
             <div className="flex items-center gap-1.5">
               <span className="font-modern-20 text-2xl font-normal text-on-surface tracking-wide">only<span className="text-primary font-bold">memes</span></span>
             </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { TrendingUp, ShieldCheck, Award, Users, Activity, Sparkles, Hash, Upload } from 'lucide-react';
 
-export default function RightSidebar({ user, posts = [], onOpenStudio, onOpenUpload }) {
+export default function RightSidebar({ user, posts = [], onOpenStudio, onOpenUpload, onSmileClick }) {
   // Real dynamic flair determination
   const getRealFlair = () => {
     if (!user) {
@@ -51,9 +51,20 @@ export default function RightSidebar({ user, posts = [], onOpenStudio, onOpenUpl
           
           {/* Avatar & Title */}
           <div className="flex items-start gap-3 -mt-8">
-            <div className="w-12 h-12 rounded-xl bg-surface-container-lowest border-2 border-primary overflow-hidden flex items-center justify-center shadow-hard">
+            <button
+              type="button"
+              onClick={() => onSmileClick?.()}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  onSmileClick?.();
+                }
+              }}
+              className="w-12 h-12 rounded-xl bg-surface-container-lowest border-2 border-primary overflow-hidden flex items-center justify-center shadow-hard hover:scale-110 active:scale-95 transition-transform cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/60"
+              aria-label="Smile"
+            >
               <span className="material-symbols-outlined text-primary text-3xl font-bold pointer-events-none">sentiment_very_satisfied</span>
-            </div>
+            </button>
             <div className="pt-4">
               <h3 className="font-modern-20 text-xl text-on-surface font-normal tracking-wide leading-tight">r/OnlyMemes</h3>
               <span className="font-mono text-[11px] text-outline">Community Hub • est. 2026</span>
